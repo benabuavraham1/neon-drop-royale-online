@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Neon Drop Royale Multiplayer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="game" width="1280" height="720"></canvas>
+
+  <section id="menu" class="panel screen">
+    <h1>NEON DROP ROYALE</h1>
+    <p class="subtitle">Private multiplayer battle royale</p>
+    <label for="nameInput">שם השחקן</label>
+    <input id="nameInput" maxlength="18" placeholder="השם שלך" value="Player">
+    <button id="createButton" class="primary">צור לובי פרטי</button>
+    <div class="joinRow">
+      <input id="codeInput" maxlength="5" placeholder="קוד חדר">
+      <button id="joinButton">הצטרף</button>
+    </div>
+    <p id="menuError" class="error"></p>
+  </section>
+
+  <section id="lobby" class="panel screen hidden">
+    <div class="lobbyHeader">
+      <div>
+        <span class="small">קוד החדר</span>
+        <strong id="roomCode">-----</strong>
+      </div>
+      <button id="copyButton">העתק הזמנה</button>
+    </div>
+    <p id="shareAddress" class="muted"></p>
+
+    <div class="modeSection">
+      <span class="small">מצב משחק</span>
+      <div id="modePicker" class="modePicker">
+        <button data-mode="solo">SOLO<small>1 בקבוצה</small></button>
+        <button data-mode="duo">DUO<small>2 בקבוצה</small></button>
+        <button data-mode="squad">SQUAD<small>4 בקבוצה</small></button>
+      </div>
+      <div class="teamLine">
+        <span id="teamStatus">קבוצה 1</span>
+        <button id="changeTeamButton">החלף קבוצה</button>
+      </div>
+    </div>
+
+    <div id="countdown" class="countdown hidden"></div>
+    <h2>שחקנים בלובי</h2>
+    <div id="playerList" class="playerList"></div>
+    <div id="hostControls" class="hostControls hidden">
+      <button id="addBotButton">הוסף בוט</button>
+      <button id="startButton" class="primary">התחל משחק</button>
+    </div>
+    <button id="leaveButton" class="danger">עזוב לובי</button>
+  </section>
+
+  <section id="endScreen" class="panel screen hidden">
+    <h2 id="endTitle">המשחק הסתיים</h2>
+    <p id="endText"></p>
+    <p class="muted">חוזרים ללובי בעוד כמה שניות…</p>
+  </section>
+
+  <section id="settingsMenu" class="panel screen settingsPanel hidden" aria-modal="true">
+    <div class="settingsHeader">
+      <h2>הגדרות</h2>
+      <span>ESC</span>
+    </div>
+    <button id="resumeButton" class="primary wideButton">המשך משחק</button>
+
+    <div class="settingGroup">
+      <h3>גרפיקה וביצועים</h3>
+      <label class="settingRow">איכות גרפיקה
+        <select id="qualitySelect">
+          <option value="low">נמוכה — יותר FPS</option>
+          <option value="medium">בינונית</option>
+          <option value="high">גבוהה</option>
+        </select>
+      </label>
+      <label class="settingRow">הגבלת FPS
+        <select id="fpsSelect">
+          <option value="60">60 FPS</option>
+          <option value="120">120 FPS</option>
+          <option value="0">ללא הגבלה</option>
+        </select>
+      </label>
+      <label class="checkRow"><input id="showFpsCheckbox" type="checkbox"> הצג מד FPS</label>
+    </div>
+
+    <div class="settingGroup">
+      <div class="settingsSubHeader">
+        <h3>מקשים</h3>
+        <button id="resetKeysButton" class="smallButton">איפוס</button>
+      </div>
+      <p id="bindHelp" class="muted">לחץ על כפתור ואז על המקש החדש.</p>
+      <div id="keybindGrid" class="keybindGrid"></div>
+    </div>
+
+    <button id="exitMatchButton" class="danger">יציאה מהמשחק והלובי</button>
+  </section>
+
+
+  <section id="mapOverlay" class="mapOverlay hidden" aria-modal="true">
+    <div class="mapCard">
+      <div class="mapHeader">
+        <div>
+          <h2>מפת האי</h2>
+          <p>ערים, בתים, האזור הבטוח וחברי הקבוצה</p>
+        </div>
+        <button id="closeMapButton">סגור — M</button>
+      </div>
+      <canvas id="fullMap" width="900" height="760"></canvas>
+    </div>
+  </section>
+
+  <div id="hud" class="hidden">
+    <div id="playerPanel">
+      <div class="modeRow"><span id="hudMode">SOLO</span><span id="hudTeam">קבוצה 1</span></div>
+      <div class="statLabel shieldLabel"><span>SHIELD</span><strong><span id="shieldValue">0</span> / 100</strong></div>
+      <div class="bar shieldBar"><div id="shieldFill"></div><span class="barIcon">◆</span></div>
+      <div class="statLabel healthLabel"><span>HEALTH</span><strong><span id="healthValue">100</span> / 100</strong></div>
+      <div class="bar healthBar"><div id="healthFill"></div><span class="barIcon">+</span></div>
+      <div id="matchStats">נשארו: 0 · הדחות: 0</div>
+    </div>
+
+    <div id="fpsCounter" class="hidden">FPS: 60</div>
+
+    <div id="ammoPanel">
+      <div id="weaponName">ללא נשק</div>
+      <div id="ammoText">0 / 0</div>
+      <div id="reloadTrack" class="progressTrack hidden"><div id="reloadFill"></div></div>
+      <div id="actionText"></div>
+      <div id="actionTrack" class="progressTrack hidden"><div id="actionFill"></div></div>
+    </div>
+
+    <div id="topMessage"></div>
+    <div id="inventory"></div>
+    <div id="interactionHint" class="hidden">פתיחה / איסוף</div>
+
+    <div id="utilityButtons">
+      <button id="mapButton"><span id="mapKey">M</span><b>מפה</b></button>
+      <button id="reloadButton"><span id="reloadKey">R</span><b>טעינה</b></button>
+      <button id="interactButton"><span id="interactKey">E</span><b>פתיחה</b></button>
+    </div>
+
+    <div id="controlsHint"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

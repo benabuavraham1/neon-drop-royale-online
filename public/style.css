@@ -1,0 +1,136 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, Arial, sans-serif;
+  --glass: rgba(4, 12, 18, .84);
+}
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #07131b; }
+body { display: grid; place-items: center; }
+canvas { width: 100vw; height: 100vh; display: block; background: #163e36; cursor: crosshair; }
+.hidden { display: none !important; }
+.screen { position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%); z-index: 20; }
+.panel {
+  width: min(94vw, 540px); max-height: 92vh; overflow: auto; padding: 28px;
+  border: 1px solid rgba(108, 231, 255, .3); border-radius: 22px;
+  background: rgba(5, 14, 23, .96); box-shadow: 0 24px 80px rgba(0,0,0,.55), inset 0 1px rgba(255,255,255,.06);
+  backdrop-filter: blur(16px);
+}
+h1 { margin: 0; letter-spacing: 4px; font-size: clamp(28px, 5vw, 45px); color: #8feaff; text-align: center; }
+h2 { margin: 18px 0 10px; }
+h3 { margin: 0 0 12px; font-size: 16px; color: #dff7ff; }
+.subtitle { text-align: center; color: #83a7b8; margin: 6px 0 24px; }
+label, .small { display: block; color: #9bb4c1; font-size: 13px; margin-bottom: 7px; }
+input, button, select { border: 1px solid rgba(255,255,255,.12); border-radius: 12px; min-height: 44px; font-size: 16px; }
+input, select { width: 100%; background: #0c202c; padding: 0 14px; color: white; outline: none; }
+input:focus, select:focus { border-color: #65dbff; box-shadow: 0 0 0 3px rgba(101,219,255,.12); }
+button { cursor: pointer; background: #153140; color: #eafaff; padding: 0 18px; font-weight: 700; }
+button:hover { filter: brightness(1.15); }
+button:disabled { opacity: .45; cursor: default; filter: none; }
+.primary { background: linear-gradient(135deg, #15b8d5, #2479e8); border: 0; }
+.danger { background: #4a1c27; width: 100%; margin-top: 14px; }
+.wideButton { width: 100%; }
+.smallButton { min-height: 32px; padding: 0 12px; font-size: 12px; }
+#createButton { width: 100%; margin: 14px 0; }
+.joinRow { display: grid; grid-template-columns: 1fr 120px; gap: 10px; }
+.error { color: #ff8f9c; min-height: 20px; }
+.lobbyHeader { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+#roomCode { font-size: 38px; letter-spacing: 7px; color: #ffdc73; }
+.muted { color: #88a5b2; font-size: 13px; overflow-wrap: anywhere; }
+.modeSection { margin: 16px 0; padding: 14px; border-radius: 14px; background: #0a1d28; }
+.modePicker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; direction: ltr; }
+.modePicker button { min-height: 62px; padding: 8px; }
+.modePicker button small { display: block; margin-top: 4px; color: #88a5b2; font-size: 11px; }
+.modePicker button.active { border-color: #7eeaff; background: #17465a; box-shadow: 0 0 17px rgba(126,234,255,.18); }
+.teamLine { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; color: #b9d0da; }
+#changeTeamButton { min-height: 34px; font-size: 12px; padding: 0 12px; }
+.playerList { display: grid; gap: 8px; max-height: 250px; overflow: auto; margin: 10px 0 16px; }
+.playerRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 11px; background: #0d2230; border-inline-start: 4px solid var(--team-color, #7eeaff); }
+.playerMeta { color: #7f9aa7; font-size: 12px; }
+.teamBadge { padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,.08); font-size: 11px; }
+.removeBot { min-height: 30px; padding: 0 10px; font-size: 12px; background: #50212b; }
+.hostControls { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; }
+.countdown { padding: 12px; margin: 14px 0; text-align: center; border-radius: 12px; background: #3d2e0d; color: #ffe186; font-size: 20px; font-weight: 800; }
+
+.settingsPanel { width: min(94vw, 620px); z-index: 40; }
+.settingsHeader, .settingsSubHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.settingsHeader h2 { margin: 0 0 14px; font-size: 28px; }
+.settingsHeader span { background: #18313e; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; padding: 6px 10px; font-weight: 900; }
+.settingGroup { margin-top: 16px; padding: 15px; background: #0a1d28; border: 1px solid rgba(255,255,255,.07); border-radius: 14px; }
+.settingRow { display: grid; grid-template-columns: 1fr 210px; align-items: center; gap: 14px; margin: 10px 0; }
+.settingRow select { min-height: 38px; font-size: 14px; }
+.checkRow { display: flex; align-items: center; gap: 9px; margin: 12px 0 2px; }
+.checkRow input { width: 18px; height: 18px; margin: 0; }
+.keybindGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.bindRow { display: grid; grid-template-columns: 1fr 105px; align-items: center; gap: 8px; min-height: 42px; color: #bad0d9; }
+.bindButton { min-height: 34px; padding: 0 8px; font-size: 12px; background: #143442; }
+.bindButton.listening { border-color: #ffe37b; color: #ffe37b; animation: pulseBind .8s infinite alternate; }
+@keyframes pulseBind { from { filter: brightness(1); } to { filter: brightness(1.5); } }
+
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; direction: ltr; }
+#playerPanel, #ammoPanel {
+  position: absolute; padding: 15px 17px; border-radius: 16px; background: var(--glass);
+  border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 30px rgba(0,0,0,.26);
+}
+#playerPanel { top: 18px; left: 18px; width: 315px; }
+#ammoPanel { left: 50%; bottom: 135px; width: 245px; text-align: center; transform: translateX(-50%); }
+.modeRow { display: flex; justify-content: space-between; color: #9ac7d6; font-size: 12px; margin-bottom: 10px; }
+.statLabel { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin: 9px 0 4px; color: #d4e5eb; }
+.statLabel strong { font-size: 14px; }
+.shieldLabel strong { color: #8ed1ff; }
+.healthLabel strong { color: #8df2a3; }
+.bar { height: 26px; border-radius: 9px; overflow: hidden; background: rgba(0,0,0,.42); border: 2px solid rgba(255,255,255,.14); position: relative; }
+.bar > div { height: 100%; width: 0; transition: width .1s linear; }
+.barIcon { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.92); font-weight: 900; text-shadow: 0 1px 3px #000; }
+.healthBar > div { background: linear-gradient(90deg, #27b94d, #61e881); }
+.shieldBar > div { background: linear-gradient(90deg, #176ed4, #52b7ff); }
+#matchStats { margin-top: 11px; font-size: 12px; color: #a8bec8; }
+#fpsCounter { position: absolute; top: 18px; right: 206px; padding: 7px 10px; border-radius: 9px; background: var(--glass); color: #cdeef8; font: 700 12px monospace; }
+#weaponName { font-size: 14px; color: #b9d5df; }
+#ammoText { font-size: 36px; font-weight: 900; letter-spacing: 1px; margin: 2px 0 7px; }
+.progressTrack { height: 8px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.12); }
+.progressTrack > div { height: 100%; width: 0; background: #ffd86d; }
+#actionTrack > div { background: #72dcff; }
+#actionText { min-height: 18px; font-size: 12px; color: #b9d5df; margin-top: 5px; }
+#topMessage { position: absolute; top: 26px; left: 50%; transform: translateX(-50%); padding: 10px 18px; border-radius: 13px; background: rgba(4,12,18,.78); font-size: 22px; font-weight: 900; text-align: center; }
+#inventory { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; direction: ltr; pointer-events: auto; }
+.slot { width: 118px; height: 82px; padding: 5px 8px; border-radius: 13px; background: rgba(4,12,18,.9); border: 2px solid rgba(255,255,255,.14); font-size: 10px; position: relative; overflow: hidden; cursor: pointer; }
+.slot::before { content: attr(data-key); position: absolute; top: 4px; left: 7px; z-index: 2; font-weight: 900; color: #d7e9ef; text-shadow: 0 1px 3px #000; }
+.slot.active { border-color: var(--rarity-color, #7eeaff); box-shadow: 0 0 20px color-mix(in srgb, var(--rarity-color, #7eeaff) 42%, transparent); transform: translateY(-4px); }
+.slot img { display: block; width: 74px; height: 42px; object-fit: contain; margin: 2px auto -2px; filter: drop-shadow(0 3px 2px rgba(0,0,0,.55)); }
+.slotName { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+.slotAmmo { color: #b4cad4; text-align: center; margin-top: 2px; }
+#interactionHint { position: absolute; bottom: 137px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.76); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 10px 15px; font-weight: 800; }
+#utilityButtons { position: absolute; left: 18px; bottom: 42px; display: flex; gap: 7px; pointer-events: auto; }
+#utilityButtons button { min-height: 46px; padding: 5px 12px; display: flex; align-items: center; gap: 7px; font-size: 12px; }
+#utilityButtons button > span { display: grid; place-items: center; min-width: 27px; height: 27px; padding: 0 5px; border-radius: 7px; background: rgba(255,255,255,.12); font-weight: 900; }
+.slot.consumableSlot img { width: 52px; height: 46px; }
+.mapOverlay { position: fixed; inset: 0; z-index: 35; display: grid; place-items: center; padding: 18px; background: rgba(2,8,13,.84); backdrop-filter: blur(9px); }
+.mapCard { width: min(96vw, 980px); height: min(94vh, 860px); padding: 16px; border-radius: 20px; background: #071720; border: 1px solid rgba(126,234,255,.3); box-shadow: 0 24px 80px rgba(0,0,0,.62); display: flex; flex-direction: column; }
+.mapHeader { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 10px; }
+.mapHeader h2 { margin: 0; }
+.mapHeader p { margin: 3px 0 0; color: #8ba8b4; font-size: 13px; }
+#fullMap { width: 100%; height: 100%; min-height: 0; background: #174b3d; border-radius: 14px; border: 2px solid rgba(255,255,255,.12); cursor: default; }
+#controlsHint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); color: #a9c2ce; background: rgba(0,0,0,.48); padding: 5px 10px; border-radius: 8px; font-size: 11px; white-space: nowrap; }
+
+@media (max-width: 1000px) {
+  #controlsHint { display: none; }
+  #ammoPanel { bottom: 132px; width: 190px; }
+  .slot { width: 90px; }
+  .slot img { width: 62px; }
+}
+@media (max-width: 700px) {
+  .panel { padding: 18px; }
+  .settingRow { grid-template-columns: 1fr; }
+  .keybindGrid { grid-template-columns: 1fr; }
+  #playerPanel { width: 235px; padding: 10px; }
+  .bar { height: 21px; }
+  #ammoPanel { bottom: 112px; width: 165px; padding: 9px; }
+  #ammoText { font-size: 25px; }
+  #utilityButtons { left: 8px; bottom: 82px; flex-direction: column; }
+  #utilityButtons button { min-height: 34px; padding: 3px 8px; }
+  #inventory { bottom: 15px; gap: 3px; }
+  .slot { width: 62px; height: 65px; padding: 4px; }
+  .slot img { width: 46px; height: 31px; }
+  .slotName { font-size: 8px; }
+  .slotAmmo { font-size: 8px; }
+}

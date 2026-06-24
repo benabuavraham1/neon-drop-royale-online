@@ -1,0 +1,24 @@
+NEON DROP ROYALE V6 — START HERE
+================================
+
+NO BAT OR CMD LAUNCHER FILES ARE INCLUDED.
+The required server packages are already included.
+
+1. Extract the ZIP completely.
+2. Open the extracted neon-drop-royale-multiplayer-v6 folder.
+3. Make sure you can see server.js in that folder.
+4. Click the File Explorer address bar.
+5. Type: cmd
+6. Press Enter.
+7. In the black window type:
+
+   node server.js
+
+8. Press Enter.
+9. Keep the black window open while playing.
+10. If the browser does not open, go to:
+
+   http://localhost:3000
+
+To stop the server, press Ctrl+C in the black window.
+The game is written in JavaScript and runs with Node.js LTS.
